@@ -2,6 +2,7 @@ import WixImage from "@/components/WixImage";
 import { cn } from "@/lib/utils";
 import { products } from "@wix/stores";
 import { PlayIcon } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import Zoom from "react-medium-image-zoom";
 
@@ -26,11 +27,12 @@ export default function ProductMedia({ media }: ProductMediaProps) {
       <div className="aspect-square bg-secondary">
         {selectedImage?.url ? (
           <Zoom key={selectedImage.url}>
-            <WixImage
-              mediaIdentifier={selectedImage.url}
-              alt={selectedImage.altText}
+            <Image
+              src={selectedImage.url}
+              alt={selectedImage.altText || ""}
               width={1000}
               height={1000}
+              className="aspect-square w-full object-cover"
             />
           </Zoom>
         ) : selectedVideo?.url ? (
@@ -46,9 +48,9 @@ export default function ProductMedia({ media }: ProductMediaProps) {
       </div>
       {media.length > 1 && (
         <div className="flex flex-wrap gap-5">
-          {media.map((mediaItem) => (
+          {media.map((mediaItem, index) => (
             <MediaPreview
-              key={mediaItem._id}
+              key={mediaItem._id! + index}
               mediaItem={mediaItem}
               isSelected={mediaItem._id === selectedMedia?._id}
               onSelect={() => setSelectedMedia(mediaItem)}
@@ -80,15 +82,18 @@ function MediaPreview({ mediaItem, isSelected, onSelect }: MediaPreviewProps) {
   return (
     <div
       className={cn(
-        "relative cursor-pointer bg-secondary",
+        "relative size-24 cursor-pointer bg-secondary",
         isSelected && "outline outline-1 outline-primary",
       )}
     >
-      <WixImage
-        mediaIdentifier={imageUrl || resolvedThumbnailUrl}
-        alt={mediaItem.image?.altText || mediaItem.video?.files?.[0].altText}
+      <Image
+        src={imageUrl || resolvedThumbnailUrl!}
+        alt={
+          mediaItem.image?.altText || mediaItem.video?.files?.[0].altText || ""
+        }
         width={100}
         height={100}
+        className="size-full object-cover"
         onMouseEnter={onSelect}
       />
       {resolvedThumbnailUrl && (

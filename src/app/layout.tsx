@@ -8,8 +8,8 @@ const lora = Lora({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Flow Shop",
-    absolute: "Flow Shop",
+    template: "%s | Hcoff store",
+    absolute: "Hcoff Store",
   },
   description: "A full-stack e-commerce application built with Next.js 15",
 };
