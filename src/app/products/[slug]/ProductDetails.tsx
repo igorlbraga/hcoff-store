@@ -16,6 +16,8 @@ import { useState } from "react";
 import ProductMedia from "./ProductMedia";
 import ProductOptions from "./ProductOptions";
 import ProductPrice from "./ProductPrice";
+import { AddToCartButton } from "@/components/AddToCartButton";
+import { Button } from "@/components/ui/button";
 
 interface ProductDetailsProps {
   product: products.Product;
@@ -103,6 +105,19 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               )}
           </div>
         </div>
+        {inStock ? (
+          <AddToCartButton
+            product={product}
+            selectedOptions={selectedOptions}
+            quantity={quantity}
+          />
+        ) : (
+          <div className="space-x-2">
+            <Button disabled>Add To Cart</Button>
+            <span className="text-sm text-destructive">Out of stock</span>
+          </div>
+        )}
+
         {!!product.additionalInfoSections?.length && (
           <div className="space-y-1.5 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
