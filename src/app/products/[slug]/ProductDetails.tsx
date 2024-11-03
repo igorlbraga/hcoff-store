@@ -18,6 +18,7 @@ import ProductOptions from "./ProductOptions";
 import ProductPrice from "./ProductPrice";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { Button } from "@/components/ui/button";
+import { BackInStockNotificationButton } from "@/components/BackInStockNotificationButton";
 
 interface ProductDetailsProps {
   product: products.Product;
@@ -115,10 +116,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             className="w-full"
           />
         ) : (
-          <div className="space-x-2">
-            <Button disabled>Add To Cart</Button>
-            <span className="text-sm text-destructive">Out of stock</span>
-          </div>
+          <BackInStockNotificationButton
+            product={product}
+            selectedOptions={selectedOptions}
+            className="w-full"
+          />
         )}
 
         {!!product.additionalInfoSections?.length && (
