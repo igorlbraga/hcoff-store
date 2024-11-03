@@ -2,7 +2,6 @@ import banner from "@/assets/banner.jpg";
 import Product from "@/components/Product";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { delay } from "@/lib/utils";
 import { getWixServerClient } from "@/lib/wix-client-server";
 import { getCollectionBySlug } from "@/wix-api/collections";
 import { queryProducts } from "@/wix-api/products";
@@ -38,7 +37,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-secondary via-transparent to-transparent" />
         </div>
       </div>
-      <Suspense fallback={<LoadingSkeleton />}>
+      <Suspense fallback={<FeaturedProductsSkeleton />}>
         <FeaturedProducts />
       </Suspense>
     </main>
@@ -74,12 +73,15 @@ async function FeaturedProducts() {
   );
 }
 
-function LoadingSkeleton() {
+function FeaturedProductsSkeleton() {
   return (
-    <div className="flex grid-cols-2 flex-col gap-5 pt-12 sm:grid md:grid-cols-3 lg:grid-cols-4">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <Skeleton key={i} className="h-[26rem] w-full" />
-      ))}
+    <div className="space-y-5">
+      <Skeleton className="h-8 w-48" />
+      <div className="flex grid-cols-2 flex-col gap-5 sm:grid md:grid-cols-3 lg:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <Product.Skeleton key={i} />
+        ))}
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import DiscountBadge from "./DiscountBadge";
 import WixImage from "./WixImage";
 import Badge from "./ui/badge";
+import { Skeleton } from "./ui/skeleton";
 
 interface ProductProps {
   product: products.Product;
@@ -55,3 +56,36 @@ function getFormattedPrice(product: products.Product) {
     );
   }
 }
+
+Product.Skeleton = function ProductSkeleton() {
+  return (
+    <div className="h-full border bg-card">
+      <div className="relative overflow-hidden">
+        {/* Image skeleton */}
+        <Skeleton className="aspect-square w-full" />
+
+        {/* Badges container */}
+        <div className="absolute bottom-3 right-3 flex flex-wrap items-center gap-2">
+          {/* Multiple badge skeletons */}
+          <Skeleton className="h-6 w-16" />
+          <Skeleton className="h-6 w-20" />
+          <Skeleton className="h-6 w-24" />
+        </div>
+      </div>
+
+      {/* Content section */}
+      <div className="space-y-3 p-3">
+        {/* Product name */}
+        <Skeleton className="h-6 w-3/4" />
+
+        {/* Description lines */}
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-5/6" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-4/5" />
+          <Skeleton className="h-4 w-3/4" />
+        </div>
+      </div>
+    </div>
+  );
+};
