@@ -93,6 +93,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               name="quantity"
               type="number"
               value={quantity}
+              min={1}
               onChange={(e) => setQuantity(Number(e.target.value))}
               className="w-24"
               disabled={!inStock}
@@ -109,7 +110,9 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           <AddToCartButton
             product={product}
             selectedOptions={selectedOptions}
+            disabled={availableQuantityExceeded || quantity < 1}
             quantity={quantity}
+            className="w-full"
           />
         ) : (
           <div className="space-x-2">
