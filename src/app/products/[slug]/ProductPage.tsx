@@ -12,30 +12,35 @@ import { Label } from "@/components/ui/label";
 import { checkInStock, findVariant } from "@/lib/utils";
 import { products } from "@wix/stores";
 import { InfoIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductMedia from "./ProductMedia";
 import ProductOptions from "./ProductOptions";
 import ProductPrice from "./ProductPrice";
 import { AddToCartButton } from "@/components/AddToCartButton";
-import { Button } from "@/components/ui/button";
 import { BackInStockNotificationButton } from "@/components/BackInStockNotificationButton";
 
 interface ProductDetailsProps {
   product: products.Product;
 }
 
-export default function ProductDetails({ product }: ProductDetailsProps) {
+export default function ProductPage({ product }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1);
 
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
-  >(
-    product.productOptions
-      ?.map((option) => ({
-        [option.name || ""]: option.choices?.[0].description || "",
-      }))
-      ?.reduce((acc, curr) => ({ ...acc, ...curr }), {}) || {},
-  );
+  >({});
+
+  useEffect(() => {
+    const defaultOptionValues = product.productOptions?.reduce(
+      (old, option) => ({
+        ...old,
+        [option.name || ""]: option.choices?.[0].description,
+      }),
+      {},
+    );
+
+    setSelectedOptions(defaultOptionValues as Record<string, string>);
+  }, [product.productOptions]);
 
   const selectedVariant = findVariant(product, selectedOptions);
 
@@ -54,6 +59,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
     return selectedChoice?.media?.items || [];
   });
 
+  useEffect(() => {}, [selectedOptionsMedia]);
+
   const otherMedias =
     product.media?.items?.filter(
       (mediaItem) =>
@@ -66,7 +73,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
   return (
     <div className="flex flex-col gap-10 md:flex-row lg:gap-20">
-      <ProductMedia media={selectedOptionsMedia} />
+      <ProductMedia mediaList={selectedOptionsMedia} />
       <div className="basis-3/5 space-y-5">
         <div className="space-y-2.5">
           <h1 className="text-3xl font-bold lg:text-4xl">{product.name}</h1>

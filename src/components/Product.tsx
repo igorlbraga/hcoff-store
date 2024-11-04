@@ -5,6 +5,7 @@ import DiscountBadge from "./DiscountBadge";
 import WixImage from "./WixImage";
 import Badge from "./ui/badge";
 import { Skeleton } from "./ui/skeleton";
+import Image from "next/image";
 
 interface ProductProps {
   product: products.Product;
@@ -16,12 +17,12 @@ export default function Product({ product }: ProductProps) {
   return (
     <Link href={`/products/${product.slug}`} className="h-full border bg-card">
       <div className="relative overflow-hidden">
-        <WixImage
-          mediaIdentifier={mainImage?.url}
-          alt={mainImage?.altText}
+        <Image
+          src={mainImage?.url || "/placeholder.png"}
+          alt={mainImage?.altText || ""}
           width={700}
           height={700}
-          className="transition-transform duration-300 hover:scale-105"
+          className="aspect-square w-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute bottom-3 right-3 flex flex-wrap items-center gap-2">
           {product.ribbon && <Badge>{product.ribbon}</Badge>}

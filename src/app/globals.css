@@ -68,4 +68,7 @@
   body {
     @apply bg-background text-foreground;
   }
+  [data-rmiz-modal-overlay="visible"] {
+    @apply bg-background;
+  }
 }
