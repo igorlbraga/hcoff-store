@@ -6,9 +6,7 @@ import { WIX_SESSION_COOKIE } from "./lib/constants";
 export async function middleware(request: NextRequest) {
   const sessionCookies = request.cookies.get(WIX_SESSION_COOKIE);
 
-  console.log(JSON.parse(sessionCookies?.value || "{}"));
-
-  if (sessionCookies) return null;
+  if (sessionCookies?.value) return null;
 
   const res = NextResponse.next();
 

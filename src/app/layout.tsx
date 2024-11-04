@@ -5,10 +5,12 @@ import "./globals.css";
 import Navbar from "./Navbar";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { env } from "@/env";
 
 const lora = Lora({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
   title: {
     template: "%s | Hcoff store",
     default: "Hcoff Store",
