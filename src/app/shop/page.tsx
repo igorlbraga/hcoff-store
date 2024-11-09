@@ -3,6 +3,7 @@ import Product from "@/components/Product";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getWixServerClient } from "@/lib/wix-client-server";
 import { ProductsSort, queryProducts } from "@/wix-api/products";
+import { media } from "@wix/sdk";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";

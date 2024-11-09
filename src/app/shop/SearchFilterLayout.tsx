@@ -155,37 +155,28 @@ interface PriceFiltersProps {
 }
 
 function PriceFilters({
-  defaultMinPrice,
-  defaultMaxPrice,
+  defaultMinPrice = "",
+  defaultMaxPrice = "",
   updatePriceRange,
 }: PriceFiltersProps) {
-  const formRef = useRef<ElementRef<"form">>(null);
-
   const [minPrice, setMinPrice] = useState(defaultMinPrice);
   const [maxPrice, setMaxPrice] = useState(defaultMaxPrice);
 
-  const debouncedupdatePriceRange = useDebouncedCallback(updatePriceRange, 300);
+  const debouncedUpdatePriceRange = useDebouncedCallback(updatePriceRange, 300);
 
   useEffect(() => {
     setMinPrice(defaultMinPrice);
     setMaxPrice(defaultMaxPrice);
   }, [defaultMinPrice, defaultMaxPrice]);
 
-  function updatePrice() {
-    updatePriceRange({
-      min: minPrice,
-      max: maxPrice,
-    });
-  }
-
   return (
-    <form ref={formRef} className="flex items-center gap-2">
+    <form className="flex items-center gap-2">
       <Input
         type="number"
         className="w-20"
         onChange={(e) => {
           setMinPrice(e.target.value);
-          debouncedupdatePriceRange({
+          debouncedUpdatePriceRange({
             min: e.target.value,
             max: maxPrice,
           });
@@ -201,7 +192,7 @@ function PriceFilters({
         className="w-20"
         onChange={(e) => {
           setMaxPrice(e.target.value);
-          debouncedupdatePriceRange({
+          debouncedUpdatePriceRange({
             min: minPrice,
             max: e.target.value,
           });

@@ -33,6 +33,7 @@ export default async function Home() {
           <Image
             src={banner}
             width={1920}
+            priority
             height={1280}
             alt="Hcoff Store banner"
             className="h-full object-cover"

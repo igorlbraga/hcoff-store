@@ -22,6 +22,7 @@ export default function Product({ product }: ProductProps) {
           alt={mainImage?.altText || ""}
           width={700}
           height={700}
+          priority
           className="aspect-square w-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute bottom-3 right-3 flex flex-wrap items-center gap-2">
