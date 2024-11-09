@@ -28,8 +28,6 @@ export default async function Layout({ children, params }: LayoutProps) {
 }
 
 async function Hero({ collection }: { collection: collections.Collection }) {
-  await delay(2000);
-
   const banner = collection.media?.mainMedia?.image;
 
   return (

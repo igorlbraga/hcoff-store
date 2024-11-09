@@ -14,11 +14,13 @@ export const getCollectionBySlug = cache(
 );
 
 export const getAllCollections = cache(
-  async (wixClient: WixClient, except: string[]) => {
+  async (wixClient: WixClient, except?: string[]) => {
     const res = await wixClient.collections.queryCollections().find();
-    const collections = res.items.filter(
-      (collection) => !except.includes(collection.slug || ""),
-    );
+    let collections = res.items;
+    if (except)
+      collections = collections.filter(
+        (collection) => !except.includes(collection.slug || ""),
+      );
     return collections;
   },
 );

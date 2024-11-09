@@ -1,10 +1,12 @@
 import { getWixClient, WixClient } from "@/lib/wix-client.base";
+import { products } from "@wix/stores";
 import { cache } from "react";
-
-type ProductsSort = "last_updated" | "price_asc" | "price_desc";
+export type ProductsSort = "last_updated" | "price_asc" | "price_desc";
 
 interface QueryProductsFilter {
+  q?: string;
   collectionIds?: string[] | string;
+  priceRange?: { min?: number; max?: number };
   sort?: ProductsSort;
   skip?: number;
   limit?: number;
@@ -12,7 +14,14 @@ interface QueryProductsFilter {
 
 export async function queryProducts(
   wixClient: WixClient,
-  { collectionIds, sort = "last_updated", skip, limit }: QueryProductsFilter,
+  {
+    q,
+    collectionIds,
+    sort = "last_updated",
+    skip,
+    limit,
+    priceRange,
+  }: QueryProductsFilter,
 ) {
   let query = wixClient.products.queryProducts();
 
@@ -22,8 +31,29 @@ export async function queryProducts(
       : [collectionIds]
     : [];
 
-  if (collectionIdsArray.length > 0) {
+  if (collectionIdsArray.length > 0)
     query = query.hasSome("collectionIds", collectionIdsArray);
+
+  if (priceRange?.min) query = query.ge("priceData.price", priceRange.min);
+
+  if (priceRange?.max) query = query.le("priceData.price", priceRange.max);
+
+  if (q) {
+    const res = await query.find();
+
+    const searchString = q.toLowerCase();
+
+    const foundedProductsIds: string[] = [];
+
+    res.items
+      .filter(
+        (item) =>
+          item.name?.toLowerCase().includes(searchString) ||
+          item.description?.toLowerCase().includes(searchString),
+      )
+      .forEach((item) => foundedProductsIds.push(item._id!));
+
+    query = query.hasSome("_id", foundedProductsIds);
   }
 
   switch (sort) {
