@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { env } from "@/env";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "./ThemeProvider";
 
 const lora = Lora({ subsets: ["latin"] });
 
@@ -29,7 +29,8 @@ export default function RootLayout({
       <body className={lora.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange
         >
           <div>
