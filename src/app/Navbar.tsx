@@ -9,6 +9,7 @@ import { UserButton } from "@/components/UserButton";
 import { getAllCollections, getCollectionBySlug } from "@/wix-api/collections";
 import MainNavigation from "./MainNavigation";
 import SearchField from "@/components/SearchField";
+import { MobileMenu } from "./MobileMenu";
 
 export default async function Navbar() {
   const wixClient = getWixServerClient();
@@ -22,16 +23,23 @@ export default async function Navbar() {
   return (
     <header className="bg-background shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 p-5">
+        <MobileMenu collections={collections} loggedInMember={loggedInMember} />
         <div className="flex flex-wrap items-center gap-5">
           <Link href="/" className="flex items-center gap-4">
             <Image src={logo} alt="Hcoff Store logo" width={40} height={40} />
             <span className="text-xl font-bold">Hcoff Store</span>
           </Link>
-          <MainNavigation collections={collections} />
+          <MainNavigation
+            className="hidden lg:inline-flex"
+            collections={collections}
+          />
         </div>
-        <SearchField className="max-w-96" />
+        <SearchField className="hidden max-w-96 lg:inline" />
         <div className="flex items-center justify-center gap-5">
-          <UserButton loggedInMember={loggedInMember} />
+          <UserButton
+            className="hidden lg:inline-flex"
+            loggedInMember={loggedInMember}
+          />
           <ShoppingCartButton initialData={cart} />
         </div>
       </div>
