@@ -2,12 +2,26 @@ import { createClient, OAuthStrategy, Tokens } from "@wix/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { env } from "./env";
 import { WIX_SESSION_COOKIE } from "./lib/constants";
+import { members } from "@wix/members";
 
 export async function middleware(request: NextRequest) {
   const sessionCookies = request.cookies.get(WIX_SESSION_COOKIE);
 
-  if (sessionCookies?.value) return null;
-
+  if (sessionCookies?.value) {
+    const tokens: Tokens = JSON.parse(sessionCookies.value);
+    const wixClient = createClient({
+      modules: {
+        members,
+      },
+      auth: OAuthStrategy({ clientId: env.NEXT_PUBLIC_WIX_CLIENT_ID, tokens }),
+    });
+    if (wixClient.auth.loggedIn()) {
+      try {
+        await wixClient.members.getCurrentMember();
+        return null;
+      } catch {}
+    }
+  }
   const res = NextResponse.next();
 
   const wixClient = createClient({
