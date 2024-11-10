@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MemberInfoForm } from "./MemberInfoForm";
 import { Orders } from "./Orders";
-import { getWixClient } from "@/lib/wix.browser";
+import { getWixClient } from "@/lib/wix.server";
 
 export const metadata: Metadata = {
   title: "Profile",

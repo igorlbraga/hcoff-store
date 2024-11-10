@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useEffect } from "react";
+import { ClearCart } from "./ClearCart";
 
 interface PageProps {
   searchParams: { orderId: string };
@@ -24,9 +25,7 @@ export default async function Page({ searchParams: { orderId } }: PageProps) {
     getLoggedInMember(wixClient),
   ]);
 
-  if (!order) {
-    notFound();
-  }
+  if (!order) notFound();
 
   const orderCreatedDate = order._createdDate
     ? new Date(order._createdDate)
@@ -47,12 +46,4 @@ export default async function Page({ searchParams: { orderId } }: PageProps) {
         orderCreatedDate.getTime() > Date.now() - 60_000 * 5 && <ClearCart />}
     </main>
   );
-}
-
-function ClearCart() {
-  const { mutate } = useClearCart();
-
-  useEffect(mutate, [mutate]);
-
-  return null;
 }
