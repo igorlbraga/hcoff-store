@@ -1,5 +1,4 @@
 import logo from "@/assets/logo.png";
-import { getWixServerClient } from "@/lib/wix-client-server";
 import { getCart } from "@/wix-api/cart";
 import { getLoggedInMember } from "@/wix-api/members";
 import Image from "next/image";
@@ -10,9 +9,10 @@ import { getAllCollections, getCollectionBySlug } from "@/wix-api/collections";
 import MainNavigation from "./MainNavigation";
 import SearchField from "@/components/SearchField";
 import { MobileMenu } from "./MobileMenu";
+import { getWixClient } from "@/lib/wix.server";
 
 export default async function Navbar() {
-  const wixClient = getWixServerClient();
+  const wixClient = getWixClient();
 
   const [cart, loggedInMember, collections] = await Promise.all([
     getCart(wixClient),

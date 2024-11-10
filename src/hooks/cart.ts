@@ -10,8 +10,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { currentCart } from "@wix/ecom";
 import { toast, useToast } from "./use-toast";
-import { products } from "@wix/stores";
-import { getWixClient } from "@/lib/wix";
+import { getWixClient } from "@/lib/wix.browser";
 
 const queryKey = ["cart"];
 
@@ -27,7 +26,7 @@ type Cart = currentCart.Cart & {
 export function useCart(initialData: Cart | null) {
   return useQuery({
     queryKey,
-    queryFn: async () => getCart(getWixClient("browser")),
+    queryFn: async () => getCart(getWixClient()),
     initialData,
   });
 }
@@ -38,8 +37,7 @@ export function useAddItemToCart() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: (values: AddToCartValues) =>
-      addToCart(getWixClient("browser"), values),
+    mutationFn: (values: AddToCartValues) => addToCart(getWixClient(), values),
     onSuccess: (data) => {
       toast({ description: "Item added to cart" });
       queryClient.invalidateQueries({ queryKey });
@@ -59,7 +57,7 @@ export function useUpdateCartItemQuantity() {
 
   return useMutation({
     mutationFn: (variables: UpdateCartItemQuantityValues) =>
-      updateCartItemQuantity(getWixClient("browser"), variables),
+      updateCartItemQuantity(getWixClient(), variables),
     async onMutate(variables) {
       await queryClient.cancelQueries({ queryKey });
       const previousQuery = queryClient.getQueryData(queryKey);
@@ -93,7 +91,7 @@ export function useRemoveCartItem() {
 
   return useMutation({
     mutationFn: (productId: string) =>
-      removeCartItem(getWixClient("browser"), productId),
+      removeCartItem(getWixClient(), productId),
     async onMutate(productId) {
       await queryClient.cancelQueries({ queryKey });
       const previousQuery = queryClient.getQueryData(queryKey);
@@ -124,7 +122,7 @@ export function useClearCart() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => clearCart(getWixClient("browser")),
+    mutationFn: () => clearCart(getWixClient()),
     onSuccess() {
       queryClient.setQueryData(queryKey, null);
       queryClient.invalidateQueries({ queryKey });

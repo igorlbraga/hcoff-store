@@ -4,14 +4,14 @@ import {
   BackInStockNotificationsProps,
   createBackInStockNotificationsRequest,
 } from "@/wix-api/back-in-stock-notifications";
-import { getWixClient } from "@/lib/wix";
+import { getWixClient } from "@/lib/wix.browser";
 
 export function useCreateBackInStockNotificationRequest() {
   const { toast } = useToast();
 
   return useMutation({
     mutationFn: (values: BackInStockNotificationsProps) =>
-      createBackInStockNotificationsRequest(getWixClient("browser"), values),
+      createBackInStockNotificationsRequest(getWixClient(), values),
     onError(error) {
       console.error(error);
       if (

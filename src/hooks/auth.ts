@@ -3,7 +3,7 @@ import { generateOAuthData, getLoginUrl, getLogoutUrl } from "@/wix-api/auth";
 import Cookies from "js-cookie";
 import { useToast } from "./use-toast";
 import { usePathname, useRouter } from "next/navigation";
-import { getWixClient } from "@/lib/wix";
+import { getWixClient } from "@/lib/wix.browser";
 
 export default function useAuth() {
   const pathname = usePathname();
@@ -13,17 +13,14 @@ export default function useAuth() {
 
   async function login() {
     try {
-      const oAuthData = await generateOAuthData(
-        getWixClient("browser"),
-        pathname,
-      );
+      const oAuthData = await generateOAuthData(getWixClient(), pathname);
 
       Cookies.set(WIX_OAUTH_DATA_COOKIE, JSON.stringify(oAuthData), {
         secure: process.env.NODE_ENV === "production",
         expires: new Date(Date.now() + 60 * 10 * 1000),
       });
 
-      const redirectUrl = await getLoginUrl(getWixClient("browser"), oAuthData);
+      const redirectUrl = await getLoginUrl(getWixClient(), oAuthData);
 
       router.push(redirectUrl);
     } catch (error) {
@@ -37,7 +34,7 @@ export default function useAuth() {
 
   async function logout() {
     try {
-      const logoutUrl = await getLogoutUrl(getWixClient("browser"));
+      const logoutUrl = await getLogoutUrl(getWixClient());
 
       Cookies.remove(WIX_SESSION_COOKIE);
 

@@ -1,6 +1,6 @@
 import { Order } from "@/components/Order";
 import { useClearCart } from "@/hooks/cart";
-import { getWixServerClient } from "@/lib/wix-client-server";
+import { getWixClient } from "@/lib/wix.server";
 import { getLoggedInMember } from "@/wix-api/members";
 import { getOrder } from "@/wix-api/orders";
 import { Metadata } from "next";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams: { orderId } }: PageProps) {
-  const wixClient = getWixServerClient();
+  const wixClient = getWixClient();
 
   const [order, loggedInMember] = await Promise.all([
     getOrder(wixClient, orderId),

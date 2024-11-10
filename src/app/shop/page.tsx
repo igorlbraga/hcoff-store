@@ -1,7 +1,7 @@
 import { PaginationBar } from "@/components/PaginationBar";
 import Product from "@/components/Product";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getWixServerClient } from "@/lib/wix-client-server";
+import { getWixClient } from "@/lib/wix.browser";
 import { ProductsSort, queryProducts } from "@/wix-api/products";
 import { media } from "@wix/sdk";
 import { Metadata } from "next";
@@ -75,7 +75,7 @@ async function ProductResults({
 }: ProductResultsProps) {
   const pageSize = 8;
 
-  const products = await queryProducts(getWixServerClient(), {
+  const products = await queryProducts(getWixClient(), {
     q,
     limit: pageSize,
     skip: (page - 1) * pageSize,

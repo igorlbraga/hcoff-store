@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MemberInfoForm } from "./MemberInfoForm";
 import { Orders } from "./Orders";
-import { getWixServerClient } from "@/lib/wix-client-server";
+import { getWixClient } from "@/lib/wix.browser";
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const member = await getLoggedInMember(getWixServerClient());
+  const member = await getLoggedInMember(getWixClient());
 
   if (!member) notFound();
 

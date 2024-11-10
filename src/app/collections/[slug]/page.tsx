@@ -1,6 +1,6 @@
 import { PaginationBar } from "@/components/PaginationBar";
 import Product from "@/components/Product";
-import { getWixServerClient } from "@/lib/wix-client-server";
+import { getWixClient } from "@/lib/wix.server";
 import { getCollectionBySlug } from "@/wix-api/collections";
 import { queryProducts } from "@/wix-api/products";
 import { Metadata } from "next";
@@ -15,9 +15,7 @@ interface PageProps {
 export async function generateMetadata({
   params: { slug },
 }: PageProps): Promise<Metadata> {
-  const collection = (
-    await getCollectionBySlug(getWixServerClient(), [slug])
-  )?.[0];
+  const collection = (await getCollectionBySlug(getWixClient(), [slug]))?.[0];
 
   if (!collection) notFound();
 
@@ -41,9 +39,7 @@ export default async function Page({
   params: { slug },
   searchParams: { page = "1" },
 }: PageProps) {
-  const collection = (
-    await getCollectionBySlug(getWixServerClient(), [slug])
-  )?.[0];
+  const collection = (await getCollectionBySlug(getWixClient(), [slug]))?.[0];
 
   if (!collection?._id) notFound();
 
@@ -70,7 +66,7 @@ interface ProductsProps {
 async function Products({ collectionId, page }: ProductsProps) {
   const itemsPerPage = 8;
 
-  const collectionProducts = await queryProducts(getWixServerClient(), {
+  const collectionProducts = await queryProducts(getWixClient(), {
     collectionIds: collectionId,
     limit: itemsPerPage,
     skip: (page - 1) * itemsPerPage,

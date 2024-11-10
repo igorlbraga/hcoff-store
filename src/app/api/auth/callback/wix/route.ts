@@ -1,5 +1,5 @@
 import { WIX_OAUTH_DATA_COOKIE, WIX_SESSION_COOKIE } from "@/lib/constants";
-import { getWixServerClient } from "@/lib/wix-client-server";
+import { getWixClient } from "@/lib/wix.server";
 import { OauthData } from "@wix/sdk";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     return new Response("Invalid request", { status: 400 });
   }
 
-  const wixClient = getWixServerClient();
+  const wixClient = getWixClient();
 
   const memberTokens = await wixClient.auth.getMemberTokens(
     code,

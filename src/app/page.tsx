@@ -2,7 +2,7 @@ import banner from "@/assets/banner.jpg";
 import Product from "@/components/Product";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getWixServerClient } from "@/lib/wix-client-server";
+import { getWixClient } from "@/lib/wix.server";
 import { getCollectionBySlug } from "@/wix-api/collections";
 import { queryProducts } from "@/wix-api/products";
 import { products } from "@wix/stores";
@@ -49,7 +49,7 @@ export default async function Home() {
 }
 
 async function Content() {
-  const collections = await getCollectionBySlug(getWixServerClient(), [
+  const collections = await getCollectionBySlug(getWixClient(), [
     "featured-products",
   ]);
 
@@ -60,7 +60,7 @@ async function Content() {
 }
 
 async function Collection({ collection }: { collection: products.Collection }) {
-  const wixClient = getWixServerClient();
+  const wixClient = getWixClient();
 
   const products = await queryProducts(wixClient, {
     collectionIds: collection._id!,

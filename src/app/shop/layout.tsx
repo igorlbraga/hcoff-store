@@ -1,13 +1,13 @@
 import { getAllCollections } from "@/wix-api/collections";
 import SearchFilterLayout from "./SearchFilterLayout";
-import { getWixServerClient } from "@/lib/wix-client-server";
+import { getWixClient } from "@/lib/wix.browser";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const collections = await getAllCollections(getWixServerClient(), [
+  const collections = await getAllCollections(getWixClient(), [
     "all-products",
     "featured-products",
   ]);

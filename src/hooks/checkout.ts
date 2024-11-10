@@ -6,7 +6,7 @@ import {
 import { useState } from "react";
 import { useToast } from "./use-toast";
 import { useRouter } from "next/navigation";
-import { getWixClient } from "@/lib/wix";
+import { getWixClient } from "@/lib/wix.browser";
 
 export function useCartCheckout() {
   const router = useRouter();
@@ -18,9 +18,7 @@ export function useCartCheckout() {
     setPending(true);
 
     try {
-      const checkoutUrl = await getCheckoutUrlForCurrentCart(
-        getWixClient("browser"),
-      );
+      const checkoutUrl = await getCheckoutUrlForCurrentCart(getWixClient());
       router.push(checkoutUrl);
     } catch (error) {
       setPending(false);
@@ -45,7 +43,7 @@ export function useQuickBuy() {
 
     try {
       const checkoutUrl = await getCheckoutUrlForProduct(
-        getWixClient("browser"),
+        getWixClient(),
         values,
       );
       window.location.href = checkoutUrl;

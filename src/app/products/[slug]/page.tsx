@@ -2,13 +2,13 @@ import { getProductBySlug, getRelatedProducts } from "@/wix-api/products";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductPage from "./ProductPage";
-import { getWixServerClient } from "@/lib/wix-client-server";
 import { Suspense } from "react";
 import Product from "@/components/Product";
 import { products } from "@wix/stores";
 import { getLoggedInMember } from "@/wix-api/members";
 import { getProductReviews } from "@/wix-api/reviews";
 import { CreateProductReviewButton } from "@/components/ui/reviews/CreateProductReviewButton";
+import { getWixClient } from "@/lib/wix.server";
 
 interface PageProps {
   params: { slug: string };
@@ -17,7 +17,7 @@ interface PageProps {
 export async function generateMetadata({
   params: { slug },
 }: PageProps): Promise<Metadata> {
-  const product = await getProductBySlug(getWixServerClient(), slug);
+  const product = await getProductBySlug(getWixClient(), slug);
 
   if (!product) notFound();
 
@@ -42,7 +42,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params: { slug } }: PageProps) {
-  const product = await getProductBySlug(getWixServerClient(), slug);
+  const product = await getProductBySlug(getWixClient(), slug);
 
   if (!product?._id) notFound();
 
@@ -69,10 +69,7 @@ interface RelatedProductsProps {
 }
 
 async function RelatedProducts({ productId }: RelatedProductsProps) {
-  const relatedProducts = await getRelatedProducts(
-    getWixServerClient(),
-    productId,
-  );
+  const relatedProducts = await getRelatedProducts(getWixClient(), productId);
 
   if (!relatedProducts.length) return null;
 
@@ -105,7 +102,7 @@ interface ProductReviewsSectionProps {
 async function ProductReviewsSection({ product }: ProductReviewsSectionProps) {
   if (!product._id) return null;
 
-  const wixClient = getWixServerClient();
+  const wixClient = getWixClient();
 
   const loggedInMember = await getLoggedInMember(wixClient);
 

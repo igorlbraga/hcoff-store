@@ -12,22 +12,8 @@ import { redirects } from "@wix/redirects";
 import { reviews } from "@wix/reviews";
 import { createClient, OAuthStrategy, Tokens } from "@wix/sdk";
 import { collections, products } from "@wix/stores";
-import { WIX_SESSION_COOKIE } from "./constants";
 
-import Cookies from "js-cookie";
-import { cookies } from "next/headers";
-
-export function getWixClient(mode: "browser" | "server") {
-  let tokens: Tokens;
-
-  try {
-    if (mode === "server")
-      tokens = JSON.parse(cookies().get(WIX_SESSION_COOKIE)?.value || "{}");
-    else tokens = JSON.parse(Cookies.get(WIX_SESSION_COOKIE) || "{}");
-  } catch (error) {
-    tokens = {} as Tokens;
-  }
-
+export function generateWixClient(tokens: Tokens) {
   return createClient({
     modules: {
       products,
@@ -49,4 +35,4 @@ export function getWixClient(mode: "browser" | "server") {
   });
 }
 
-export type WixClient = ReturnType<typeof getWixClient>;
+export type WixClient = ReturnType<typeof generateWixClient>;
