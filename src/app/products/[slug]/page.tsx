@@ -5,6 +5,10 @@ import ProductPage from "./ProductPage";
 import { getWixServerClient } from "@/lib/wix-client-server";
 import { Suspense } from "react";
 import Product from "@/components/Product";
+import { products } from "@wix/stores";
+import { getLoggedInMember } from "@/wix-api/members";
+import { getProductReviews } from "@/wix-api/reviews";
+import { CreateProductReviewButton } from "@/components/ui/reviews/CreateProductReviewButton";
 
 interface PageProps {
   params: { slug: string };
@@ -45,9 +49,17 @@ export default async function Page({ params: { slug } }: PageProps) {
   return (
     <main className="mx-auto max-w-7xl space-y-10 px-5 py-10">
       <ProductPage product={product} />
+      <hr />
       <Suspense fallback={<RelatedProductsLoadingSkeleton />}>
         <RelatedProducts productId={product._id} />
       </Suspense>
+      <hr />
+      <div className="space-y-5">
+        <h2 className="text-2xl font-bold">Buyer reviews</h2>
+        <Suspense fallback={<p>Loading</p>}>
+          <ProductReviewsSection product={product} />
+        </Suspense>
+      </div>
     </main>
   );
 }
@@ -82,6 +94,37 @@ function RelatedProductsLoadingSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => (
         <Product.Skeleton key={i} />
       ))}
+    </div>
+  );
+}
+
+interface ProductReviewsSectionProps {
+  product: products.Product;
+}
+
+async function ProductReviewsSection({ product }: ProductReviewsSectionProps) {
+  if (!product._id) return null;
+
+  const wixClient = getWixServerClient();
+
+  const loggedInMember = await getLoggedInMember(wixClient);
+
+  const existingReview = loggedInMember?.contactId
+    ? (
+        await getProductReviews(wixClient, {
+          productId: product._id,
+          contactId: loggedInMember.contactId,
+        })
+      ).items[0]
+    : null;
+
+  return (
+    <div className="space-y-5">
+      <CreateProductReviewButton
+        product={product}
+        loggedInMember={loggedInMember}
+        hasExistingReview={!!existingReview}
+      />
     </div>
   );
 }

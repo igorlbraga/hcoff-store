@@ -1,4 +1,4 @@
-import { WixClient } from "@/lib/wix-client.base";
+import { WixClient } from "@/lib/wix";
 import { members } from "@wix/members";
 import { cache } from "react";
 

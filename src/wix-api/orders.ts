@@ -1,4 +1,4 @@
-import { WixClient } from "@/lib/wix-client.base";
+import { WixClient } from "@/lib/wix";
 
 export async function getOrder(wixClient: WixClient, orderId: string) {
   try {

@@ -3,7 +3,7 @@
 import { LoadingButton } from "@/components/LoadingButton";
 import { Order } from "@/components/Order";
 import { Skeleton } from "@/components/ui/skeleton";
-import { wixBrowserClient } from "@/lib/wix-client-browser";
+import { getWixClient } from "@/lib/wix";
 import { getUserOrders } from "@/wix-api/orders";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -12,7 +12,7 @@ export function Orders() {
     useInfiniteQuery({
       queryKey: ["orders"],
       queryFn: async ({ pageParam }) =>
-        getUserOrders(wixBrowserClient(), {
+        getUserOrders(getWixClient("browser"), {
           limit: 2,
           cursor: pageParam,
         }),

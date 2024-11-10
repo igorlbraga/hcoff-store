@@ -1,7 +1,5 @@
 import { products } from "@wix/stores";
-import { Button, ButtonProps } from "./ui/button";
-import { addToCart } from "@/wix-api/cart";
-import { wixBrowserClient } from "@/lib/wix-client-browser";
+import { ButtonProps } from "./ui/button";
 import { LoadingButton } from "./LoadingButton";
 import { useAddItemToCart } from "@/hooks/cart";
 import { cn } from "@/lib/utils";

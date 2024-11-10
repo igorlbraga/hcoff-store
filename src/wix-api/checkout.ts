@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import { WIX_STORES_APP_ID } from "@/lib/constants";
 import { findVariant } from "@/lib/utils";
-import { WixClient } from "@/lib/wix-client.base";
+import { WixClient } from "@/lib/wix";
 import { checkout } from "@wix/ecom";
 import { products } from "@wix/stores";
 

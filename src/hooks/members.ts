@@ -2,7 +2,7 @@ import { updateMemberInfo, UpdateMemberInfoValues } from "@/wix-api/members";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useToast } from "./use-toast";
-import { wixBrowserClient } from "@/lib/wix-client-browser";
+import { getWixClient } from "@/lib/wix";
 
 export function useUpdateMember() {
   const { toast } = useToast();
@@ -11,7 +11,7 @@ export function useUpdateMember() {
 
   return useMutation({
     mutationFn: (variables: UpdateMemberInfoValues) =>
-      updateMemberInfo(wixBrowserClient(), variables),
+      updateMemberInfo(getWixClient("browser"), variables),
     onSuccess() {
       toast({
         description: "Profile updated",
