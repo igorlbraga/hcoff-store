@@ -37,7 +37,7 @@ export async function generateMetadata({
               alt: mainImage.altText || "",
             },
           ]
-        : undefined,
+        : [],
     },
   };
 }

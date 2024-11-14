@@ -1,11 +1,13 @@
-import { PaginationBar } from "@/components/PaginationBar";
-import Product from "@/components/Product";
-import { getWixClient } from "@/lib/wix.server";
-import { getCollectionBySlug } from "@/wix-api/collections";
-import { queryProducts } from "@/wix-api/products";
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+
+import { getWixClient } from "@/lib/wix.server";
+import { queryProducts } from "@/wix-api/products";
+import { getCollectionBySlug } from "@/wix-api/collections";
+
+import Product from "@/components/Product";
+import { PaginationBar } from "@/components/PaginationBar";
 
 interface PageProps {
   params: { slug: string };
