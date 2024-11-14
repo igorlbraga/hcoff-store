@@ -1,12 +1,10 @@
 import { Order } from "@/components/Order";
-import { useClearCart } from "@/hooks/cart";
 import { getWixClient } from "@/lib/wix.server";
 import { getLoggedInMember } from "@/wix-api/members";
 import { getOrder } from "@/wix-api/orders";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { useEffect } from "react";
 import { ClearCart } from "./ClearCart";
 
 interface PageProps {

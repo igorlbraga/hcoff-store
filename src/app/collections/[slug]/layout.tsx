@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn, delay } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { getWixClient } from "@/lib/wix.server";
 import { getCollectionBySlug } from "@/wix-api/collections";
 import { collections } from "@wix/stores";

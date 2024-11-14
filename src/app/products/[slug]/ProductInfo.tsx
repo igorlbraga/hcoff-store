@@ -24,7 +24,7 @@ interface ProductDetailsProps {
   product: products.Product;
 }
 
-export default function ProductPage({ product }: ProductDetailsProps) {
+export default function ProductInfo({ product }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1);
 
   const [selectedOptions, setSelectedOptions] = useState<

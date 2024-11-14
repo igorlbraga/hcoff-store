@@ -1,14 +1,15 @@
 import { getProductBySlug, getRelatedProducts } from "@/wix-api/products";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ProductPage from "./ProductPage";
+import ProductInfo from "./ProductInfo";
 import { Suspense } from "react";
 import Product from "@/components/Product";
 import { products } from "@wix/stores";
 import { getLoggedInMember } from "@/wix-api/members";
 import { getProductReviews } from "@/wix-api/reviews";
-import { CreateProductReviewButton } from "@/components/ui/reviews/CreateProductReviewButton";
+import { ProductReviewButton } from "@/components/ui/reviews/ReviewProductButton";
 import { getWixClient } from "@/lib/wix.server";
+import ProductReviews from "./ProductReviews";
 
 interface PageProps {
   params: { slug: string };
@@ -48,7 +49,7 @@ export default async function Page({ params: { slug } }: PageProps) {
 
   return (
     <main className="mx-auto max-w-7xl space-y-10 px-5 py-10">
-      <ProductPage product={product} />
+      <ProductInfo product={product} />
       <hr />
       <Suspense fallback={<RelatedProductsLoadingSkeleton />}>
         <RelatedProducts productId={product._id} />
@@ -117,11 +118,12 @@ async function ProductReviewsSection({ product }: ProductReviewsSectionProps) {
 
   return (
     <div className="space-y-5">
-      <CreateProductReviewButton
+      <ProductReviewButton
         product={product}
         loggedInMember={loggedInMember}
         hasExistingReview={!!existingReview}
       />
+      <ProductReviews product={product} />
     </div>
   );
 }
